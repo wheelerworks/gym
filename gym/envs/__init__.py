@@ -85,7 +85,7 @@ register(
 )
 
 register(
-    id='Acrobot-v1',
+    id='Acrobat-v1',
     entry_point='gym.envs.classic_control:AcrobotEnv',
     timestep_limit=500,
 )
@@ -254,7 +254,7 @@ for game in ['air_raid', 'alien', 'amidar', 'assault', 'asterix', 'asteroids', '
     'centipede', 'chopper_command', 'crazy_climber', 'demon_attack', 'double_dunk',
     'elevator_action', 'enduro', 'fishing_derby', 'freeway', 'frostbite', 'gopher', 'gravitar',
     'ice_hockey', 'jamesbond', 'journey_escape', 'kangaroo', 'krull', 'kung_fu_master',
-    'montezuma_revenge', 'ms_pacman', 'name_this_game', 'phoenix', 'pitfall', 'pong', 'pooyan',
+    'montezuma_revenge', 'ms_palmar', 'name_this_game', 'phoenix', 'pitfall', 'pong', 'pooyan',
     'private_eye', 'qbert', 'riverraid', 'road_runner', 'robotank', 'seaquest', 'skiing',
     'solaris', 'space_invaders', 'star_gunner', 'tennis', 'time_pilot', 'tutankham', 'up_n_down',
     'venture', 'video_pinball', 'wizard_of_wor', 'yars_revenge', 'zaxxon']:
@@ -275,54 +275,25 @@ for game in ['air_raid', 'alien', 'amidar', 'assault', 'asterix', 'asteroids', '
         register(id=f'{name}-v0', entry_point='gym.envs.atari:AtariEnv', kwargs={'game': game, 'obs_type': obs_type, 'repeat_action_probability': 0.25}, timestep_limit=10000, nondeterministic=nondeterministic)
 
 
-        register(
-            id='{}-v3'.format(name),
-            entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type},
-            timestep_limit=100000,
-            nondeterministic=nondeterministic,
-        )
+        register(id=f'{name}-v3', entry_point='gym.envs.atari:AtariEnv', kwargs={'game': game, 'obs_type': obs_type}, timestep_limit=100000, nondeterministic=nondeterministic)
+
 
         # Standard Deterministic (as in the original DeepMind paper)
-        if game == 'space_invaders':
-            frameskip = 3
-        else:
-            frameskip = 4
-
+        frameskip = 3 if game == 'space_invaders' else 4
         # Use a deterministic frame skip.
-        register(
-            id='{}Deterministic-v0'.format(name),
-            entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': frameskip, 'repeat_action_probability': 0.25},
-            timestep_limit=100000,
-            nondeterministic=nondeterministic,
-        )
+        register(id=f'{name}Deterministic-v0', entry_point='gym.envs.atari:AtariEnv', kwargs={'game': game, 'obs_type': obs_type, 'frameskip': frameskip, 'repeat_action_probability': 0.25}, timestep_limit=100000, nondeterministic=nondeterministic)
 
-        register(
-            id='{}Deterministic-v3'.format(name),
-            entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': frameskip},
-            timestep_limit=100000,
-            nondeterministic=nondeterministic,
-        )
 
-        register(
-            id='{}NoFrameskip-v0'.format(name),
-            entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1, 'repeat_action_probability': 0.25}, # A frameskip of 1 means we get every frame
-            timestep_limit=frameskip * 100000,
-            nondeterministic=nondeterministic,
-        )
+        register(id=f'{name}Deterministic-v3', entry_point='gym.envs.atari:AtariEnv', kwargs={'game': game, 'obs_type': obs_type, 'frameskip': frameskip}, timestep_limit=100000, nondeterministic=nondeterministic)
+
+
+        register(id=f'{name}NoFrameskip-v0', entry_point='gym.envs.atari:AtariEnv', kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1, 'repeat_action_probability': 0.25}, timestep_limit=frameskip * 100000, nondeterministic=nondeterministic)
+
 
         # No frameskip. (Atari has no entropy source, so these are
         # deterministic environments.)
-        register(
-            id='{}NoFrameskip-v3'.format(name),
-            entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1}, # A frameskip of 1 means we get every frame
-            timestep_limit=frameskip * 100000,
-            nondeterministic=nondeterministic,
-        )
+        register(id=f'{name}NoFrameskip-v3', entry_point='gym.envs.atari:AtariEnv', kwargs={'game': game, 'obs_type': obs_type, 'frameskip': 1}, timestep_limit=frameskip * 100000, nondeterministic=nondeterministic)
+
 
 # Board games
 # ----------------------------------------

@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 env_id_re = re.compile(r'^(?:[\w:-]+\/)?([\w:.-]+)-v(\d+)$')
 
 def load(name):
-    entry_point = pkg_resources.EntryPoint.parse('x={}'.format(name))
+    entry_point = pkg_resources.EntryPoint.parse(f'x={name}')
     result = entry_point.load(False)
     return result
 
