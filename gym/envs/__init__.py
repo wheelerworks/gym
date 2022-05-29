@@ -262,7 +262,7 @@ for game in ['air_raid', 'alien', 'amidar', 'assault', 'asterix', 'asteroids', '
         # space_invaders should yield SpaceInvaders-v0 and SpaceInvaders-ram-v0
         name = ''.join([g.capitalize() for g in game.split('_')])
         if obs_type == 'ram':
-            name = '{}-ram'.format(name)
+            name = f'{name}-ram'
 
         nondeterministic = False
         if game == 'elevator_action' and obs_type == 'ram':
@@ -272,13 +272,8 @@ for game in ['air_raid', 'alien', 'amidar', 'assault', 'asterix', 'asteroids', '
             # mark it as nondeterministic.
             nondeterministic = True
 
-        register(
-            id='{}-v0'.format(name),
-            entry_point='gym.envs.atari:AtariEnv',
-            kwargs={'game': game, 'obs_type': obs_type, 'repeat_action_probability': 0.25},
-            timestep_limit=10000,
-            nondeterministic=nondeterministic,
-        )
+        register(id=f'{name}-v0', entry_point='gym.envs.atari:AtariEnv', kwargs={'game': game, 'obs_type': obs_type, 'repeat_action_probability': 0.25}, timestep_limit=10000, nondeterministic=nondeterministic)
+
 
         register(
             id='{}-v3'.format(name),
@@ -429,20 +424,16 @@ register(
     timestep_limit=200,
 )
 
-# semi_supervised envs
-    # probably the easiest:
 register(
     id='SemisuperPendulumNoise-v0',
     entry_point='gym.envs.safety:SemisuperPendulumNoiseEnv',
     timestep_limit=200,
 )
-    # somewhat harder because of higher variance:
 register(
     id='SemisuperPendulumRandom-v0',
     entry_point='gym.envs.safety:SemisuperPendulumRandomEnv',
     timestep_limit=200,
 )
-    # probably the hardest because you only get a constant number of rewards in total:
 register(
     id='SemisuperPendulumDecay-v0',
     entry_point='gym.envs.safety:SemisuperPendulumDecayEnv',
