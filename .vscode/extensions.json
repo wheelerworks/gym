@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "redhat.vscode-yaml",
+        "ms-python.python",
+        "visualstudioexptteam.vscodeintellicode",
+        "formulahendry.code-runner"
+    ]
+}
